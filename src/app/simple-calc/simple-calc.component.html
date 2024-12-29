@@ -1,0 +1,27 @@
+<div class="myCalc">
+  <input
+    type="text"
+    class="inputCalc"
+    placeholder="Введите число"
+    [(ngModel)]="tmp"
+    (keyup)="inputUser($event)"
+    (keyup.enter)="inputUserCount()"
+  />
+
+  <div class="operations">
+    <div class="plus operation" (click)="clickOperation($event)">
+      <span>+</span>
+    </div>
+    <div class="minus operation" (click)="clickOperation($event)">
+      <span>-</span>
+    </div>
+    <div class="multiply operation" (click)="clickOperation($event)">
+      <span>*</span>
+    </div>
+    <div class="devide operation" (click)="clickOperation($event)">
+      <span>/</span>
+    </div>
+  </div>
+
+  <button class="calcBtn" (click)="counting()">Рассчитать</button>
+</div>

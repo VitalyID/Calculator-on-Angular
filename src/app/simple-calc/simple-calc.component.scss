@@ -1,0 +1,67 @@
+.myCalc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 40px;
+  border: solid 2px black;
+  border-radius: 30px;
+  gap: 40px;
+
+  &:focus-within {
+    box-shadow: 0 0 10px rgb(29, 28, 28);
+  }
+
+  .inputCalc {
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px rgb(0, 0, 0);
+    width: 35%;
+
+    &:focus {
+      // background: #000;
+      // color: red($color: #000000);
+      // border-radius: 20px;
+      border: 2px solid rgb(45, 45, 119);
+    }
+  }
+
+  .operations {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .operation {
+    padding: 20px;
+    border: solid 1px black;
+    border-radius: 10px;
+    position: relative;
+    z-index: 10;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    span {
+      font-size: 20px;
+      position: relative;
+      z-index: 0;
+    }
+  }
+
+  .calcBtn {
+    padding: 15px 30px;
+    border: solid 1px black;
+    border-radius: 10px;
+  }
+}
+
+.inputCalc:active {
+  border-color: darkslategrey;
+}
+
+.inputCalc:focus {
+  border-color: rgb(168, 72, 109);
+}

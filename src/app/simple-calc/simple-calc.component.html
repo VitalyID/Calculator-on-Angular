@@ -4,24 +4,23 @@
     class="inputCalc"
     placeholder="Введите число"
     [(ngModel)]="tmp"
-    (keyup)="inputUser($event)"
-    (keyup.enter)="inputUserCount()"
+    (keyup.enter)="inputUser($event)"
   />
 
   <div class="operations">
-    <div class="plus operation" (click)="clickOperation($event)">
+    <div class="plus operation" (click)="clickOnBtnOperation($event)">
       <span>+</span>
     </div>
-    <div class="minus operation" (click)="clickOperation($event)">
+    <div class="minus operation" (click)="clickOnBtnOperation($event)">
       <span>-</span>
     </div>
-    <div class="multiply operation" (click)="clickOperation($event)">
+    <div class="multiply operation" (click)="clickOnBtnOperation($event)">
       <span>*</span>
     </div>
-    <div class="devide operation" (click)="clickOperation($event)">
+    <div class="devide operation" (click)="clickOnBtnOperation($event)">
       <span>/</span>
     </div>
   </div>
 
-  <button class="calcBtn" (click)="counting()">Рассчитать</button>
+  <button class="calcBtn" (click)="inputUser($event)">Рассчитать</button>
 </div>

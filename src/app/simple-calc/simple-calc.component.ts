@@ -1,18 +1,36 @@
 import { Component } from '@angular/core';
 
-class ArrInput {
+class DataFromInput {
   symbol: string = '';
-  getLastSign() {
-    return [
-      this.symbol.slice(-1),
-      this.symbol.slice(0, -1),
-      true
-        ? this.symbol.slice(-1) === '+' ||
-          this.symbol.slice(-1) === '-' ||
-          this.symbol.slice(-1) === '*' ||
-          this.symbol.slice(-1) === '/'
-        : false,
-    ];
+  getValueFromInput() {
+    // Reading the input und gettin array groups, separated between self by operation sigh
+
+    // console.log(this.symbol, typeof this.symbol);
+    let arrFromString = this.symbol.split('');
+    // console.log(arrFromString);
+
+    const middleResult: string[] = [];
+    let currentNumber = '';
+
+    for (const char of arrFromString) {
+      if (/[0-9]/.test(char)) {
+        // Если символ - цифра, добавляем ее к текущему числу
+        currentNumber += char;
+      } else {
+        // Если символ не цифра
+        if (currentNumber !== '') {
+          middleResult.push(currentNumber); // Добавляем накопленное число в результат
+          currentNumber = ''; // сбрасываем накопленное число
+        }
+        middleResult.push(char); // Добавляем нецифровой символ в результат
+      }
+    }
+
+    if (currentNumber !== '') {
+      middleResult.push(currentNumber); // Добавляем последнее накопленное число если оно есть
+    }
+
+    return middleResult;
   }
 }
 
@@ -24,101 +42,99 @@ class ArrInput {
   styleUrl: './simple-calc.component.scss',
 })
 export class SimpleCalcComponent {
-  public tmp: string = '';
-  public first: number = 0;
-  public second: number = 0;
-  public operation: string = '';
+  public tmp: string = '0';
   public result: number = 0;
+  public newData: string = '0';
+  public getArrOfLineFromInput: string[] = [];
+  public indexes: number = 0;
+  public count: number = 0;
 
   inputUser(event: Event) {
-    let item = new ArrInput();
-    item.symbol = (<HTMLInputElement>event.target).value;
-    // console.log(item);
-    let arrData = item.getLastSign();
-    console.log(arrData);
-    if (arrData[2] === true) {
-      console.log(this.first, ' ', typeof this.first);
-      if (this.first !== 0) {
-        // если значение first уже есть(второй раз нажимают на символ операции), то производится расчет и результат сохраняется в first
-        // this.first = Number(this.tmp);
-        // this.tmp = '';
-        // this.counting();
-        // document.querySelector('input')?.focus();
-        // document.querySelector('input')?.select();
-      } else {
-        this.first = Number(arrData[1]);
-        this.operation = String(arrData[0]);
-        this.tmp = '';
-        console.log(
-          'Сохранено: Первое значение - ',
-          this.first,
-          ' операция - ',
-          this.operation
-        );
-        document.querySelector('input')?.focus();
-        document.querySelector('input')?.select();
+    let newData = new DataFromInput();
+    // console.log(event.type);
+
+    if (event.type === 'click') {
+      // console.log('click');
+      newData.symbol = this.tmp;
+      this.getArrOfLineFromInput = newData.getValueFromInput();
+      // console.log(this.getArrOfLineFromInput);
+    } else {
+      newData.symbol = (<HTMLInputElement>event.target).value;
+      this.getArrOfLineFromInput = newData.getValueFromInput();
+      // console.log(this.getArrOfLineFromInput);
+    }
+
+    // Производим все умножения в данных с импута
+    while (true) {
+      this.indexes = this.getArrOfLineFromInput.indexOf('*');
+      // console.log('индекс умножения: ', this.indexes);
+      if (this.indexes === -1) {
+        break;
       }
+
+      let multiply: number =
+        Number(this.getArrOfLineFromInput[this.indexes - 1]) *
+        Number(this.getArrOfLineFromInput[this.indexes + 1]);
+      this.getArrOfLineFromInput.splice(this.indexes - 1, 3, String(multiply));
+      // console.log(this.getArrOfLineFromInput);
+    }
+    // Производим все деления в данных с импута
+    while (true) {
+      this.indexes = this.getArrOfLineFromInput.indexOf('/');
+      // console.log('индекс деления: ', this.indexes);
+      if (this.indexes === -1) {
+        break;
+      }
+
+      let multiply: number =
+        Number(this.getArrOfLineFromInput[this.indexes - 1]) /
+        Number(this.getArrOfLineFromInput[this.indexes + 1]);
+      this.getArrOfLineFromInput.splice(this.indexes - 1, 3, String(multiply));
+      // console.log(this.getArrOfLineFromInput);
+    }
+    // Производим все сложения в данных с импута
+    while (true) {
+      this.indexes = this.getArrOfLineFromInput.indexOf('+');
+      // console.log('индекс сложения: ', this.indexes);
+      if (this.indexes === -1) {
+        break;
+      }
+
+      let multiply: number =
+        Number(this.getArrOfLineFromInput[this.indexes - 1]) +
+        Number(this.getArrOfLineFromInput[this.indexes + 1]);
+      this.getArrOfLineFromInput.splice(this.indexes - 1, 3, String(multiply));
+      // console.log(this.getArrOfLineFromInput);
+    }
+    // Производим все вычитания в данных с импута
+    while (true) {
+      this.indexes = this.getArrOfLineFromInput.indexOf('-');
+      // console.log('индекс деления: ', this.indexes);
+      if (this.indexes === -1) {
+        break;
+      }
+
+      let multiply: number =
+        Number(this.getArrOfLineFromInput[this.indexes - 1]) -
+        Number(this.getArrOfLineFromInput[this.indexes + 1]);
+      this.getArrOfLineFromInput.splice(this.indexes - 1, 3, String(multiply));
+      // console.log(this.getArrOfLineFromInput);
+    }
+    if (this.getArrOfLineFromInput.length > 1) {
+      this.tmp = 'Error. We have a lot of elements in result array';
+    } else {
+      this.tmp = this.getArrOfLineFromInput[0];
     }
   }
 
-  clickOperation(event: Event) {
-    let itemFromMouse = new ArrInput();
-    itemFromMouse.symbol =
-      this.tmp + (<HTMLInputElement>event.target).textContent;
-    // console.log(this.tmp);
-
-    let arrData = itemFromMouse.getLastSign();
-    if (arrData[2] === true) {
-      this.first = Number(arrData[1]);
-      this.operation = String(arrData[0]);
-      this.tmp = '';
-      console.log(
-        'Сохранено: Первое значение - ',
-        this.first,
-        ' операция - ',
-        this.operation
-      );
-      document.querySelector('input')?.focus();
-      document.querySelector('input')?.select();
-    }
-  }
-
-  counting() {
-    console.log('start counting');
-    console.log(this.tmp);
-    this.second = Number(this.tmp);
-
-    console.log(this.second);
-    switch (this.operation) {
-      case '+': {
-        this.tmp = String(this.first + this.second);
-        break;
-        // return (this.tmp = String(this.result));
-      }
-      case '-': {
-        this.tmp = String(this.first - this.second);
-
-        // this.result = this.first - this.second;
-        break;
-      }
-      case '*': {
-        this.tmp = String(this.first * this.second);
-
-        // this.result = this.first * this.second;
-        break;
-      }
-      case '/': {
-        this.tmp = String(this.first / this.second);
-
-        // this.result = this.first / this.second;
-        break;
-      }
-    }
-    // console.log(this.result);
-    // this.tmp = String(this.result);
-  }
-
-  inputUserCount() {
-    this.counting();
+  public dataLine: string = '0';
+  clickOnBtnOperation(event: Event) {
+    this.dataLine = this.tmp;
+    // console.log((<HTMLInputElement>event.target).textContent);
+    this.dataLine =
+      this.dataLine + String((<HTMLInputElement>event.target).textContent);
+    this.tmp = this.dataLine;
+    document.querySelector('input')?.focus();
+    document.querySelector('input')?.select();
   }
 }

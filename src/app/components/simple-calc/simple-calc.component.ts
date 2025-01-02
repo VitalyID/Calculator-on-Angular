@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 class DataFromInput {
   symbol: string = '';
   getValueFromInput() {
@@ -43,11 +42,11 @@ class DataFromInput {
 })
 export class SimpleCalcComponent {
   public tmp: string = '0';
-  public result: number = 0;
-  public newData: string = '0';
-  public getArrOfLineFromInput: string[] = [];
-  public indexes: number = 0;
-  public count: number = 0;
+  private result: number = 0;
+  private newData: string = '0';
+  private getArrOfLineFromInput: string[] = [];
+  private indexes: number = 0;
+  private count: number = 0;
 
   inputUser(event: Event) {
     let newData = new DataFromInput();
@@ -127,7 +126,7 @@ export class SimpleCalcComponent {
     }
   }
 
-  public dataLine: string = '0';
+  private dataLine: string = '0';
   clickOnBtnOperation(event: Event) {
     this.dataLine = this.tmp;
     // console.log((<HTMLInputElement>event.target).textContent);

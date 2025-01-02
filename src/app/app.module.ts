@@ -1,15 +1,23 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SimpleCalcComponent } from './simple-calc/simple-calc.component';
-
-import { FormsModule } from '@angular/forms';
+import { EmptyRouteComponent } from './components/empty-route/empty-route.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { SimpleCalcModule } from './components/simple-calc/simple-calc.module';
 
 @NgModule({
-  declarations: [AppComponent, SimpleCalcComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  // declarations: [AppComponent, EmptyRouteComponent, NavigationComponent],
+  declarations: [AppComponent, EmptyRouteComponent, NavigationComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    SimpleCalcModule,
+    RouterModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
